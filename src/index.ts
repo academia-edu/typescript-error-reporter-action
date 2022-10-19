@@ -41,7 +41,8 @@ const resolveProjectPath = (projectPath:string) => {
 }
 
 const typecheck = (projectPath:string) => {
-  const ts = loadTS(projectPath)
+  // const ts = loadTS(projectPath)
+  const ts = loadTS()
   const json = ts.readConfigFile(projectPath, ts.sys.readFile)
   const config = ts.parseJsonConfigFileContent(
       json.config,
@@ -104,17 +105,22 @@ const performCompilation = (ts: TS, config:ParsedCommandLine) => {
 const isIncrementalCompilation = (options: CompilerOptions) =>
   options.incremental || options.composite
 
-const loadTS = (projectPath:string):TS => {
-  try {
-    const require = Module.createRequire(projectPath)
-    const ts = require('typescript')
-    console.log(`Using local typescript@${ts.version}`);
-    return ts
-  } catch (error) {
-    const ts = require('typescript')
-    console.log(`Failed to find project specific typescript, falling back to bundled typescript@${ts.version}`);
-    return ts
-  }
+// const loadTS = (projectPath:string):TS => {
+const loadTS = ():TS => {
+  const ts = require('typescript')
+  console.log(`Using bundled typescript@${ts.version}`);
+  return ts
+
+  // try {
+  //   const require = Module.createRequire(projectPath)
+  //   const ts = require('typescript')
+  //   console.log(`Using local typescript@${ts.version}`);
+  //   return ts
+  // } catch (error) {
+  //   const ts = require('typescript')
+  //   console.log(`Failed to find project specific typescript, falling back to bundled typescript@${ts.version}`);
+  //   return ts
+  // }
 }
 
 
