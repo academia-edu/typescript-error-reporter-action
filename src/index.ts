@@ -20,7 +20,7 @@ async function main() {
     typecheck(projectPath)
   } catch (e) {
     console.error(e)
-    setFailed(e)
+    setFailed(e as string | Error)
   }
 }
 
